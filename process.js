@@ -5,12 +5,12 @@ var Process = function (idx , schedule ) {
 
     this.idx = idx ;
 
-    var schedule = schedule ;
+    this.schedule = schedule ;
 
     var currentSchedule = null ;
+    var currentTaskIdx = 0 ;
 
     var self = this ;
-
 
     var _run = function () {
         console.log("Process " + self.idx + " Running its executing routine " , schedule) ;
@@ -18,20 +18,33 @@ var Process = function (idx , schedule ) {
             currentSchedule = schedule.shift() ;
         }
         else {
+            V.clearProcess(self.idx) ;
             return
         }
 
         if ( currentSchedule.type == "c" ) {
-            wait(self , mutex , function () {
+            wait(self , semaphores[currentSchedule.semId] , function () {
+
+                V.critProcess(self.idx) ;
+
                 criticalSection( currentSchedule.duration , function () {
-                    signal(self , mutex ) ;
+                    signal(self , semaphores[currentSchedule.semId] ) ;
+
+                    V.activateProcess(self.idx ) ;
+                    V.finishTask(self.idx , currentTaskIdx) ;
+                    currentTaskIdx += 1 ;
                     _run() ;
+
                 }) ;
+
             }) ;
         }
 
         else {
+            V.activateProcess(self.idx) ;
             nonCriticalSection( currentSchedule.duration , function () {
+                V.finishTask(self.idx , currentTaskIdx) ;
+                currentTaskIdx += 1 ;
                 _run() ;
             })
         }
