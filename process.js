@@ -13,7 +13,7 @@ var Process = function (idx , schedule ) {
     var self = this ;
 
     var _run = function () {
-        console.log("Process " + self.idx + " Running its executing routine " , schedule) ;
+        console.log("Process " + self.idx + " Running its executing routine ") ;
         if ( schedule.length ) {
             currentSchedule = schedule.shift() ;
         }
