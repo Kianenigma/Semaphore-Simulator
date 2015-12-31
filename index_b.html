@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Project 4 </title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link href='https://fonts.googleapis.com/css?family=Ubuntu:400,300&subset=latin,greek' rel='stylesheet' type='text/css'>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+    <script type="text/javascript" src="Semaphore.js"></script>
+    <script type="text/javascript" src="process.js"></script>
+
+    <script type="text/javascript" src="Visualizer.js"></script>
+
+
+</head>
+<body>
+<h1>
+    Semaphore Simulation
+    <span style="font-size: 10px">
+        Process Types : <span style="color: #7ed34c"> Active ( NonCritical ) </span> <span style="color: #e2b200"> Blocked </span> <span style="color: #EF473A"> Active ( Critical ) </span>
+    </span>
+</h1>
+<div id="semaphores">
+
+</div>
+
+<hr/>
+
+<div id="processes">
+
+</div>
+
+
+<script>
+
+    // Global Wait function
+    window.wait = function (prc, smp, callback) {
+        smp.count -= 1;
+        if (smp.count < 0) {
+            V.blockProcess(prc.idx) ;
+            V.push(smp.name , prc.idx ) ;
+            console.warn("Process " + prc.idx + " blocked into queue");
+            smp.queue.push(callback);
+        }
+        else {
+            callback()
+        }
+    };
+
+
+    // global Signal function
+    window.signal = function (prc, smp) {
+        smp.count += 1;
+        if (smp.count <= 0) {
+            var _lastCallback = smp.queue.shift();
+            V.pop(smp.name) ;
+            console.info("Releasing process " + prc.idx + " from queue");
+            _lastCallback();
+        }
+    };
+
+
+    // Define some critical Data
+    window.critical_data = {
+        array: [],
+        int: 0,
+        str: ""
+    };
+
+
+    /*
+     Each process takes an integer as id
+     and an array of tasks.
+     each task in defined by a duration and type
+     'n' stands for normal task
+     'c' stands for critical task which needs to be locked by a semaphore defined in semId
+     */
+
+    // Global Semaphore Objects
+    window.semaphores = {
+        'mutex': new Semaphore(1 , "mutex")
+    };
+
+
+    var P1 = new Process(1, [
+        {type: "n", duration: 1000},
+        {type: "c", duration: 2000, semId: 'mutex'},
+        {type: "n", duration: 1000},
+        {type: "c", duration: 5000, semId: 'mutex'}
+    ]);
+
+    var P2 = new Process(2, [
+        {type: "n", duration: 1500},
+        {type: "c", duration: 1000, semId: 'mutex'}
+    ]);
+
+    var P3 = new Process(3 , [
+        { type : 'n' , duration : 1000 },
+        { type : 'n' , duration : 1000 },
+        { type : 'c' , duration : 1000 , semId: 'mutex'},
+        { type : 'n' , duration : 1000 },
+        { type : 'c' , duration : 1000 , semId: 'mutex'}
+    ]) ;
+
+
+
+    window.V = new Visualizer() ;
+    V.createProcess(P1) ;
+    V.createProcess(P2) ;
+    V.createProcess(P3) ;
+
+    for ( var sem in window.semaphores ) {
+        V.createSemaphore(sem) ;
+    }
+
+    P1.init() ;
+    P2.init() ;
+    P3.init() ;
+
+
+
+</script>
+</body>
+</html>
