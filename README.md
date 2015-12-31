@@ -3,7 +3,7 @@ Semaphore simulation . Operation Systems Course Project
 
 
 # Classes
- + Process
+ +Process
     an abstract Process Class .
     takes an ID as identifier and a Schedule Object
     schedule Object is an array of Task Objects
@@ -12,8 +12,8 @@ Semaphore simulation . Operation Systems Course Project
     *Duration* {Int} = task execution time in milliseconds
     [*semId*] {String} = name of the Semaphore declared for critical section . shoudl only be defined if Type = "c"
 
- + Semaphore
+ +Semaphore
     Simple Abstract semaphore Class
 
- + Visualizer
-    Handles Drawing the processes on DOM. 
+ +Visualizer
+    Handles Drawing the processes on DOM.
