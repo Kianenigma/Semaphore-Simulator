@@ -65,10 +65,11 @@ and a Semaphore **With initial Value 1** Since we only have one Resource or addr
             'mutex': new Semaphore(1 , "mutex")
         };
 
-## Mutual Exclusion over Multiple Resources
+## Mutual Exclusion over Multiple Resources With Multiple Capacities
 Same as the last problem . only diffrenece is that if we have n instances of one resource, we set the initial value to the corresponding semaphore to n ( 5 for example )
 
     window.semaphores = {
-        'mutex': new Semaphore(5 , "mutex")
+        'printer': new Semaphore(5 , "mutex") , // 5 processes can access a printer at most 
+        'scanner': new Semaphore(2 , "mutex") // 2 processes can access a scanner at most
     };
     
