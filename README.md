@@ -19,6 +19,7 @@ each Task Object is declared by
 
  ## Visualizer
 Handles Drawing the processes on DOM.
+
 # Usage
 each problem is declared at the end of a `<script></script>` tag placed in `<body></body>` . multiple Processes and semaphore can be created .To Initialize the code you need to warite :
 
