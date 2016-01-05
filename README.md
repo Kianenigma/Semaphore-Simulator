@@ -5,8 +5,8 @@ Semaphore simulation . Operation Systems Course Project
 
  ## Process
 an abstract Process Class .
-takes an ID as identifier and a Schedule Object
-schedule Object is an array of Task Objects
+takes an ID as identifier and a Schedule Object.
+schedule Object is an array of Task Objects.
 each Task Object is declared by
 + Type {String} = could be "n" ( normal - non critical ) or "c" ( critical )
 + *Duration* {Int} = task execution time in milliseconds
@@ -30,6 +30,7 @@ each problem is declared at the end of a `<script></script>` tag placed in `<bod
     for ( var sem in window.semaphores ) {
         V.createSemaphore(sem) ;
     }
+    
 and call the `init()` function of all Processes. Unlimited Count of semaphores and Processes can be created and visualized. **only Limitation** is that each critical code secteion ( reffered to as task) can only be bounded by one semaphore ( access one critical resurce )
 
 # Problems
